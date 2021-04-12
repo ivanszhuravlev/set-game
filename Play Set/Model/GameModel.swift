@@ -10,7 +10,7 @@ import Foundation
 struct GameModel {
     private var cards: Array<Card>
     private(set) var playingCards: Array<Card>
-    private(set) var chosenIndices: Array<Int>
+    private(set) var chosenCards: Array<Card>
     
     init() {
         var cards: Array<Card> = []
@@ -29,7 +29,7 @@ struct GameModel {
         
         self.cards = Array(cards[initialCardsCount...])
         self.playingCards = Array(cards[..<initialCardsCount])
-        self.chosenIndices = []
+        self.chosenCards = []
     }
     
     mutating func addCards() {
@@ -39,26 +39,62 @@ struct GameModel {
         }
     }
     
+    private mutating func unselectAll() {
+        for index in 0..<playingCards.count {
+            playingCards[index].isChosen = false
+        }
+        chosenCards.removeAll()
+    }
+    
     mutating func chooseCard(_ card: Card) {
-        if let index = playingCards.firstIndex(matching: card) {
+        if let index = playingCards.firstIndex(matching: card), playingCards[index].isChosen == false {
+            if chosenCards.count == 3 {
+                unselectAll()
+            }
+            
             playingCards[index].isChosen = true
+            chosenCards.append(playingCards[index])
             
-            
-            if chosenIndices.count == 2 {
-                print("------ GONNA COMPARE CARDS!!!!!")
+            if chosenCards.count == 3 {
+                compareAll()
             }
             
-            if chosenIndices.count == 3 {
-                for chosenIndex in chosenIndices {
-                    playingCards[chosenIndex].isChosen = false
-                }
-                chosenIndices.removeAll()
-            }
-            
-            chosenIndices.append(index)
         }
     }
     
+    private mutating func compareAll() {
+        let shape = compare(by: chosenCards.map { card in
+            card.shape
+        })
+        
+        let color = compare(by: chosenCards.map { card in
+            card.color
+        })
+        
+        let opacity = compare(by: chosenCards.map { card in
+            card.opacity
+        })
+        
+        let number = compare(by: chosenCards.map { card in
+            card.numberOfItems
+        })
+        
+        if shape && color && opacity && number {
+            chosenCards.forEach { card in
+                playingCards = playingCards.filter { playingCard in
+                    playingCard.id != card.id
+                }
+            }
+            unselectAll()
+        }
+    }
+    
+    private func compare<T: Equatable>(by params: [T]) -> Bool {
+        let equal = params[0] == params[1] && params[0] == params[2]
+        let unequal = params[0] != params[1] && params[0] != params[2] && params[1] != params[2]
+        
+        return equal || unequal
+    }
     
     // MARK: - Controls
     

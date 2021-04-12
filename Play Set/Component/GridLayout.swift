@@ -36,8 +36,10 @@ struct GridLayout {
                 }
             }
         }
-        rowCount = bestLayout.rowCount
-        columnCount = bestLayout.columnCount
+//        rowCount = bestLayout.rowCount
+//        columnCount = bestLayout.columnCount
+        rowCount = 4
+        columnCount = 3
     }
     
     var itemSize: CGSize {

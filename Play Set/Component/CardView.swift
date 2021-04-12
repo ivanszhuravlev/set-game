@@ -34,7 +34,9 @@ struct CardView: View {
     
     let cornerRadius: CGFloat = 12.0
     var foregroundColor: Color {
-        card.isChosen ? Color.blue.opacity(0.1) : Color.white
+        get {
+            card.isChosen ? Color.blue.opacity(0.1) : Color.white
+        }
     }
     
 }

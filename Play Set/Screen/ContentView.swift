@@ -12,12 +12,16 @@ struct GameView: View {
     
     var body: some View {
         VStack {
-            Grid(gameModel.cards) { card in
-                CardView(card: card).onTapGesture {
-                    gameModel.choose(card: card)
+            GeometryReader { geometry in
+                Grid(gameModel.cards) { card in
+                    CardView(card: card).onTapGesture {
+                        gameModel.choose(card: card)
+                    }
+    //                .fixedSize(horizontal: /*@START_MENU_TOKEN@*/true/*@END_MENU_TOKEN@*/, vertical: /*@START_MENU_TOKEN@*/true/*@END_MENU_TOKEN@*/)
+    //                .aspectRatio)
                 }
+                .padding()
             }
-            .padding()
         }
     }
 }
