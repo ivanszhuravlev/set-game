@@ -13,7 +13,9 @@ struct GameView: View {
     var body: some View {
         VStack {
             Grid(gameModel.cards) { card in
-                CardView(card: card)
+                CardView(card: card).onTapGesture {
+                    gameModel.choose(card: card)
+                }
             }
             .padding()
         }

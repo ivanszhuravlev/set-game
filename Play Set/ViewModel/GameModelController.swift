@@ -16,5 +16,11 @@ class GameModelController: ObservableObject {
     var cards: Array<Card> {
         game.playingCards
     }
+    
+    //MARK: - Intent
+    
+    func choose(card: Card) {
+        game.chooseCard(card)
+    }
 
 }

@@ -10,6 +10,7 @@ import Foundation
 struct GameModel {
     private var cards: Array<Card>
     private(set) var playingCards: Array<Card>
+    private(set) var chosenIndices: Array<Int>
     
     init() {
         var cards: Array<Card> = []
@@ -28,12 +29,33 @@ struct GameModel {
         
         self.cards = Array(cards[initialCardsCount...])
         self.playingCards = Array(cards[..<initialCardsCount])
+        self.chosenIndices = []
     }
     
     mutating func addCards() {
         if (cards.count >= additionalCardsCount) {
             playingCards = Array(cards[..<additionalCardsCount])
             cards = Array(cards[additionalCardsCount...])
+        }
+    }
+    
+    mutating func chooseCard(_ card: Card) {
+        if let index = playingCards.firstIndex(matching: card) {
+            playingCards[index].isChosen = true
+            
+            
+            if chosenIndices.count == 2 {
+                print("------ GONNA COMPARE CARDS!!!!!")
+            }
+            
+            if chosenIndices.count == 3 {
+                for chosenIndex in chosenIndices {
+                    playingCards[chosenIndex].isChosen = false
+                }
+                chosenIndices.removeAll()
+            }
+            
+            chosenIndices.append(index)
         }
     }
     

@@ -11,9 +11,9 @@ struct CardView: View {
     var card: Card
     
     var body: some View {
-        ZStack {
+        return ZStack {
             RoundedRectangle(cornerRadius: cornerRadius)
-                .foregroundColor(.white)
+                .foregroundColor(foregroundColor)
                 .shadow(color: Color.black.opacity(0.3), radius: 5, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/)
             content()
         }
@@ -33,6 +33,9 @@ struct CardView: View {
     //MARK: - Controls
     
     let cornerRadius: CGFloat = 12.0
+    var foregroundColor: Color {
+        card.isChosen ? Color.blue.opacity(0.1) : Color.white
+    }
     
 }
 

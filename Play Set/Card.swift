@@ -14,6 +14,7 @@ struct Card: Identifiable {
     private(set) var color: Colors
     private(set) var opacity: Opacity
     private(set) var shape: CardShape
+    var isChosen: Bool
     
     init(id: Int, numberOfItems: NumberOfItems, color: Colors, opacity: Opacity, shape: CardShape) {
         self.id = id
@@ -21,6 +22,7 @@ struct Card: Identifiable {
         self.color = color
         self.opacity = opacity
         self.shape = shape
+        self.isChosen = false
     }
     
     func getNumberOfItemsAsInt () -> Int {
